@@ -18,7 +18,7 @@ public interface UserService {
 	
 	public UserEntity getUserById(Integer id);
 	
-	public String removeUser(Integer userId);
+	public Boolean removeUser(Integer userId);
 	
 	public Boolean changeAccountStatus(Integer userId,Character status);
 	

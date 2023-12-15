@@ -45,15 +45,15 @@ public class UserServiceImp implements UserService{
 	}
 
 	@Override
-	public String removeUser(Integer userId) {
+	public Boolean removeUser(Integer userId) {
 		
 		UserEntity user = getUserById(userId);
 		if(user != null) {
 			userRepo.deleteById(userId);
-			return "user is removed";
+			return true;
 		}
 		
-		return "user is not removed";
+		return false;
 	}
 
 	@Override
