@@ -22,8 +22,8 @@ public class UserServiceImp implements UserService{
 		
 		UserEntity entity=new UserEntity ();
 		
-		String result = saveEntity(entity);
-		if (result != null ) {
+		Boolean result = saveEntity(entity);
+		if (result) {
 			return "user is saved"; 
 		}
 		return "user not save";
@@ -58,7 +58,6 @@ public class UserServiceImp implements UserService{
 
 	@Override
 	public Boolean changeAccountStatus(Integer userId, Character status) {
-		
 		UserEntity user = getUserById(userId);
 		if(user != null) {
 			user.setActiveSwitch(status);
@@ -129,9 +128,11 @@ public class UserServiceImp implements UserService{
 
 
 	@Override
-	public String saveEntity(UserEntity userEntity) {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean saveEntity(UserEntity userEntity) {
+
+		UserEntity entity = userRepo.save(userEntity);
+
+		return (entity != null) ? true : false;
 	}
 
 

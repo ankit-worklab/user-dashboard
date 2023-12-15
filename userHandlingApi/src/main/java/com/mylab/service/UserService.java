@@ -12,7 +12,7 @@ public interface UserService {
 
 	public String saveUser(UserRequest userRequest);
 	
-	public String saveEntity(UserEntity userEntity);
+	public Boolean saveEntity(UserEntity userEntity);
 	
 	public List<UserRequest> displayAllUser();
 	
@@ -20,7 +20,7 @@ public interface UserService {
 	
 	public String removeUser(Integer userId);
 	
-	public Boolean changeAccountStatus(Integer userId,String status);
+	public Boolean changeAccountStatus(Integer userId,Character status);
 	
 	public String logInUser(Login login);
 	
