@@ -1,0 +1,12 @@
+Hi {fullName},</br>
+</br>
+Your Registration is about to complete.</br>
+</br>
+your Temporary password is {tempPassword}.</br>
+</br>
+pls update your password and Activate your account.</br>
+<br>
+<a href value={url}>click here to Activate your account.</a></br>
+</br>
+Thanks
+Admin Team .

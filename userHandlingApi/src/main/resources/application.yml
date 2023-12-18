@@ -1,0 +1,25 @@
+Spring:
+##### DATA SOURCE PROPERTIES ####
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springdb
+    username: root
+    password: root
+#### jpa properties ####
+  jpa:
+    hibernate:
+      ddl: update
+    show_sql: true
+ #### SMTP PROPERTIES #####
+spring:
+  mail:
+   host: smtp.gmail.com
+   port: 587
+   username: letsrevisecontent@gmail.com
+   password: revise@1999
+   properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true

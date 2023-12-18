@@ -1,9 +1,12 @@
 package com.mylab.service;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.mylab.utils.EmailUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,9 @@ import com.mylab.dto.UserRequest;
 import com.mylab.entities.UserEntity;
 import com.mylab.repo.UserRepo;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImp implements UserService{
 	
 	@Autowired
@@ -25,11 +30,25 @@ public class UserServiceImp implements UserService{
 	public Boolean saveUser(UserRequest user) {
 		
 		UserEntity entity=new UserEntity ();
+        String tempPassword = getRandomPassword();
 		BeanUtils.copyProperties(user,entity);
 		entity.setAccountStatus("In-Active");
-		entity.setPassword(getRandomPassword());
+		entity.setPassword(tempPassword);
+        String sub = "Your Account Registration Success !";
+		String fileName="REG_EMAIL_BODY.txt";
+		String url="";
+        String body = readEmailBody(user.getFullName(),tempPassword,fileName,url);
+        try{
+            userRepo.save(entity);
+            EmailUtils email = new EmailUtils();
+            email.sendEmail(user.getEmailId(),sub,body);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
 
-		return userRepo.save(entity).getUserNo() != null;
+        }
+
 	}
 	
 	private String getRandomPassword(){
@@ -132,18 +151,47 @@ public class UserServiceImp implements UserService{
 		String pwd = recoverData.getNewPassword();
 		String cpwd = recoverData.getConfirmPassword();
 
-		if (pwd.equals(cpwd)) {
-
-			UserEntity entity = userRepo.findByEmailId(email);
-			if (entity == null) {
-				return "invalid emailId";
-			} else {
+		UserEntity entity = userRepo.findByEmailId(email);
+		if(entity == null){
+			return "invalid EmailId !";
+		}
+		EmailUtils utils = new EmailUtils();
+		String sub = "Forget password";
+		String url ="";
+		String fileName = "PWD_RECOVER_BODY";
 				entity.setPassword(cpwd);
 				userRepo.save(entity);
-				return "password is changed";
+				String body=readEmailBody(entity.getFullName(),pwd,fileName,url);
+				boolean isSend=utils.sendEmail(email,sub,body);
+		if(isSend){
+			return "password send to your registered EmailId !";
+
 			}
-		}
-		return "password is not matched";
+		return  "password updation failed !";
+
 	}
+
+    private String readEmailBody(String fullName , String pwd, String fileName, String url){
+
+       String msgBody=null;
+        StringBuilder builder = new StringBuilder();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+           String value= reader.readLine();
+            while(value != null){
+                builder.append(value);
+                value=reader.readLine();
+            }
+            msgBody= builder.toString();
+            msgBody.replace("{fullName}",fullName);
+            msgBody.replace("{password}", pwd);
+            msgBody.replace("{url}",url);
+
+
+        }catch(Exception e ){
+            e.printStackTrace();
+        }
+        return msgBody;
+    }
 
 }

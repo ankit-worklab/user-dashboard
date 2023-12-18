@@ -1,0 +1,9 @@
+Hi {fullName},</br>
+</br>
+your password is updated successfully .</br>
+</br>
+you can find your password below.</br>
+password : {pwd}</br>
+</br>
+Thanks </br>
+Admin Team
