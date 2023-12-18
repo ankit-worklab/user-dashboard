@@ -10,21 +10,20 @@ import com.mylab.entities.UserEntity;
 
 public interface UserService {
 
-	public String saveUser(UserRequest userRequest);
-	
-	public Boolean saveEntity(UserEntity userEntity);
+	public Boolean saveUser(UserRequest userRequest);
+
 	
 	public List<UserRequest> displayAllUser();
 	
-	public UserEntity getUserById(Integer id);
+	public UserRequest getUserById(Integer id);
 	
 	public Boolean removeUser(Integer userId);
 	
-	public Boolean changeAccountStatus(Integer userId,Character status);
+	public Boolean changeAccountStatus(Integer userId,String status);
 	
 	public String logInUser(Login login);
 	
-	public String activeAccount(ActivateAccount requiredData);
+	public Boolean activateAccount(ActivateAccount requiredData);
 	
 	public String forgetPwd(RecoverPwd recoverData);
 

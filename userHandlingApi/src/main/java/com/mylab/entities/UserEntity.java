@@ -22,7 +22,7 @@ public class UserEntity {
 	private Long ssn;
 	private LocalDate dob;
 	private String password;
-	private Character activeSwitch;
+	private String accountStatus;
 	private String createdBy;
 	private String updatedBy;
 	private LocalDate createdDate;

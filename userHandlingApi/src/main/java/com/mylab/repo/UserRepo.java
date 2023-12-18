@@ -6,6 +6,7 @@ import com.mylab.entities.UserEntity;
 
 public interface UserRepo extends JpaRepository<UserEntity,Integer>{
 
-	UserEntity findByEmailId(String email);
+   public  UserEntity findByEmailIdAndPassword(String emailId, String password);
 
+  public  UserEntity findByEmailId(String email);
 }
